@@ -16,7 +16,7 @@ resource "azurerm_public_ip" "lb_publicip" {
   name                = "${var.rsi_lb}-pubIP"
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   sku                 = "Basic"
 }
 

@@ -6,5 +6,5 @@ variable "location" {
 variable "security_group" {
   type        = string
   description = "security groups for vnet"
-  default = ""
+  default     = ""
 }
