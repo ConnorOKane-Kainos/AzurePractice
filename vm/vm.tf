@@ -12,6 +12,14 @@ resource "azurerm_network_interface" "nic1" {
   }
 }
 
+# Associate NSG with the Network Interface
+resource "azurerm_network_interface_security_group_association" "nsg_association_nic1" {
+  network_interface_id      = azurerm_network_interface.nic1.id
+  network_security_group_id = data.azurerm_network_security_group.sg_1.id
+}
+
+
+
 
 # Create a Public IP resource
 resource "azurerm_public_ip" "publicip1" {
@@ -98,7 +106,14 @@ resource "azurerm_windows_virtual_machine" "vm2" {
   }
 }
 
+# Associate NSG with the Network Interface
+resource "azurerm_network_interface_security_group_association" "nsg_association_nic2" {
+  network_interface_id      = azurerm_network_interface.nic2.id
+  network_security_group_id = data.azurerm_network_security_group.sg_2.id
+}
+
 
 // Ubuntu VM used to ping/SSH from windows server VM's \\
+
 
 
