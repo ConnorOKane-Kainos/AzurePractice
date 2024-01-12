@@ -27,9 +27,9 @@ resource "azurerm_lb_backend_address_pool" "lb_address_pool" {
   name            = "${var.rsi_lb}-address-pool"
 }
 
-// This health probe below will help to ensure the VM's are running as expected  \\
+// This health probe below will help to ensure the traffic being load balanced is healthy port 80 \\
 
-resource "azurerm_lb_probe" "lb_proe" {
+resource "azurerm_lb_probe" "lb_probe" {
   loadbalancer_id = azurerm_lb.lb.id
   name            = "${var.rsi_lb}-probe"
   protocol        = "Http"
@@ -37,18 +37,30 @@ resource "azurerm_lb_probe" "lb_proe" {
   port            = 80
 }
 
-
 // Here we will now define our load balancing rules \\
 
 resource "azurerm_lb_rule" "lb_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
-  name                           = "${var.rsi_lb}-rules"
+  name                           = "${var.rsi_lb}-http-rule" // Updated name
   protocol                       = "Tcp"
   frontend_port                  = 80
   backend_port                   = 80
   frontend_ip_configuration_name = "public-ip-configuration"
-  probe_id                       = azurerm_lb_probe.lb_proe.id
+  probe_id                       = azurerm_lb_probe.lb_probe.id
 }
+
+
+// The rules below are allowing SSH traffic on port 22 \\
+resource "azurerm_lb_rule" "ssh_rule" {
+  loadbalancer_id                = azurerm_lb.lb.id
+  name                           = "${var.rsi_lb}-ssh-rule" // Updated name
+  protocol                       = "Tcp"
+  frontend_port                  = 22
+  backend_port                   = 22
+  frontend_ip_configuration_name = "public-ip-configuration"
+  probe_id                       = azurerm_lb_probe.lb_probe.id
+}
+
 
 // Associating the VM's network interafce with the backend address pools \\
 resource "azurerm_network_interface_backend_address_pool_association" "vm1_backend_address_pool" {
