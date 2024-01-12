@@ -16,7 +16,12 @@ variable "vnet2" {
 }
 
 variable "linux_vm" {
-  type = string
+  type        = string
   description = "name of linux vm"
-  default = "linuxvm"
+  default     = "linuxvm"
+}
+variable "availability_set" {
+  type        = string
+  description = "Availability set for the two VM's in VNET1"
+  default     = "vm-availability-set"
 }

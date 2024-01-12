@@ -36,6 +36,7 @@ resource "azurerm_windows_virtual_machine" "vm1" {
   size                = "Standard_B1s"
   admin_username      = "adminuser"
   admin_password      = "Password1234!"
+  availability_set_id = azurerm_availability_set.availability_set.id
   network_interface_ids = [
     azurerm_network_interface.nic1.id,
   ]
@@ -86,6 +87,7 @@ resource "azurerm_windows_virtual_machine" "vm2" {
   size                = "Standard_B1s"
   admin_username      = "adminuser"
   admin_password      = "Password1234!"
+  availability_set_id = azurerm_availability_set.availability_set.id
   network_interface_ids = [
     azurerm_network_interface.nic2.id,
   ]
@@ -156,5 +158,15 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   }
 }
 
+// This availability set is required to ensure the two windows VM's are inside the same availability set 
+
+resource "azurerm_availability_set" "availability_set" {
+  name                = var.availability_set
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.rsi_rg.name
+
+  platform_fault_domain_count  = 2
+  platform_update_domain_count = 5
+}
 
 
