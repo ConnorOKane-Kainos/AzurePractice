@@ -8,6 +8,7 @@ terraform {
 }
 provider "azurerm" {
   features {}
-  use_msi = true
+  # use_msi = true
+  subscription_id = var.subscription
 }
 data "azurerm_client_config" "current" {}
