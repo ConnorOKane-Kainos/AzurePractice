@@ -15,15 +15,15 @@ jobs:
   - script: |
       terraform init
     displayName: 'Terraform Init'
-    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1/bootstrap
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
 
   - script: |
       terraform validate
     displayName: 'Terraform Validate'
-    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1/bootstrap
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
 
   - script: |
       terraform plan -out=tfplan
     displayName: 'Terraform Plan'
-    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1/bootstrap
-    # Note: Removed -auto-approve from plan as it is not applicable. Plan does not make any changes.
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
+    # Note: Removed -auto-approve as it is only applicable to the apply command.
