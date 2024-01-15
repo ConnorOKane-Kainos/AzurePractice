@@ -7,22 +7,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '3.x'
-    addToPath: true
-
+# Initialize and validate for the 'bootstrap/terraform' directory
 - script: |
     terraform init
     terraform validate
   workingDirectory: 'bootstrap/terraform'
-  displayName: 'Terraform Init and Validate'
+  displayName: 'Init and Validate for bootstrap/terraform'
 
-- script: terraform plan -out=tfplan -var="resource_group_name=$(resourceGroupName)" -var="location=$(location)"
+# Plan for the 'bootstrap/terraform' directory
+- script: terraform plan -out=bootstrap.tfplan
   workingDirectory: 'bootstrap/terraform'
-  displayName: 'Terraform Plan'
-
-- script: terraform apply -input=false tfplan
-  workingDirectory: 'bootstrap/terraform'
-  displayName: 'Terraform Apply'
-  condition: succeeded()
+  displayName: 'Terraform Plan for bootstrap/terraform'
