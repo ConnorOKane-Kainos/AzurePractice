@@ -4,22 +4,29 @@ trigger:
       - ci/cd
 
 pool:
-  vmImage: 'ubuntu-latest'
-  
-  variables:
-  ARM_SUBSCRIPTION_ID: $(Subscription Id)
-  ARM_TENANT_ID: $(Tenant Id)
-
+  name: 'Azure Pipelines' # This should match the name of your self-hosted agent pool
 
 steps:
 # Initialize and validate for the 'bootstrap' directory
 - script: |
+    echo "Initializing Terraform..."
     terraform init
+    
+    echo "Validating Terraform configurations..."
     terraform validate
   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
   displayName: 'Init and Validate for bootstrap'
 
 # Plan for the 'bootstrap' directory
-- script: terraform plan -out=bootstrap.tfplan
+- script: |
+    echo "Generating Terraform plan..."
+    terraform plan -out=bootstrap.tfplan
   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
   displayName: 'Terraform Plan for bootstrap'
+
+# Apply the Terraform plan (uncomment this section if you want to apply changes automatically)
+# - script: |
+#     echo "Applying Terraform plan..."
+#     terraform apply bootstrap.tfplan
+#   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
+#   displayName: 'Terraform Apply for bootstrap'
