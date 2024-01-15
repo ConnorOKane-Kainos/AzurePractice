@@ -7,14 +7,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-# Initialize and validate for the 'bootstrap/terraform' directory
+# Initialize and validate for the 'bootstrap' directory
 - script: |
     terraform init
     terraform validate
-   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
-  displayName: 'Init and Validate for bootstrap/terraform'
+  workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
+  displayName: 'Init and Validate for bootstrap'
 
-# Plan for the 'bootstrap/terraform' directory
+# Plan for the 'bootstrap' directory
 - script: terraform plan -out=bootstrap.tfplan
-   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
-  displayName: 'Terraform Plan for bootstrap/terraform'
+  workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
+  displayName: 'Terraform Plan for bootstrap'
