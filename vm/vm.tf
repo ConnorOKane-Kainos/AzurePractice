@@ -27,6 +27,16 @@ resource "azurerm_public_ip" "publicip1" {
   sku                 = "Basic"
 }
 
+// VM extension to automate installation of Win32 SSH solution \\
+
+resource "azurerm_virtual_machine_extension" "ssh_extension" {
+  name                 = "WindowsOpenSSH"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm1.id
+  publisher            = "Microsoft.Azure.OpenSSH"
+  type                 = "WindowsOpenSSH"
+  type_handler_version = "3.0"
+}
+
 
 // VM 1 to be created and attached to netowrk interface 1 \\
 resource "azurerm_windows_virtual_machine" "vm1" {
@@ -76,6 +86,16 @@ resource "azurerm_public_ip" "publicip2" {
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   allocation_method   = "Dynamic" # Or "Static"
   sku                 = "Basic"
+}
+
+// VM2 extension to automate installation of Win32 SSH solution \\
+
+resource "azurerm_virtual_machine_extension" "ssh_extension_vm2" {
+  name                 = "WindowsOpenSSH"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm2.id
+  publisher            = "Microsoft.Azure.OpenSSH"
+  type                 = "WindowsOpenSSH"
+  type_handler_version = "3.0"
 }
 
 
