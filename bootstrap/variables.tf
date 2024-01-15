@@ -1,10 +1,10 @@
-# variable "location" {
-#   type    = string
-#   default = "uksouth"
-# }
+variable "location" {
+  type    = string
+  default = "uksouth"
+}
 
-variable "subscription" {
+variable "assigned_identity" {
   type = string
-  default = "ba42369f-44c4-4081-b1c5-6636641980ca"
-  description = "subscription id"
+  default = "rsi-identity"
+  description = "assigned identity name"
 }
