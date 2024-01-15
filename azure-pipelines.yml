@@ -15,15 +15,15 @@ jobs:
   - script: |
       terraform init
     displayName: 'Terraform Init'
-    workingDirectory: $(/PracticeAzure/PracticeAzure-1) # Update this path if your Terraform files are in a specific directory.
+    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1
 
   - script: |
       terraform validate
     displayName: 'Terraform Validate'
-    workingDirectory: $(/PracticeAzure/PracticeAzure-1) # Update this path if needed.
+    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1
 
   - script: |
-      terraform plan -auto-approve
+      terraform plan -out=tfplan
     displayName: 'Terraform Plan'
-    workingDirectory: $(/PracticeAzure/PracticeAzure-1) # Update this path if needed.
-    # Be cautious with 'terraform apply -auto-approve' in a CI/CD pipeline. Make sure it's safe to apply changes automatically.
+    workingDirectory: $(Build.SourcesDirectory)/PracticeAzure/PracticeAzure-1
+    # Note: Removed -auto-approve from plan as it is not applicable. Plan does not make any changes.
