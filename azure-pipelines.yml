@@ -5,6 +5,11 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+  
+  variables:
+  ARM_SUBSCRIPTION_ID: $(Subscription Id)
+  ARM_TENANT_ID: $(Tenant Id)
+
 
 steps:
 # Initialize and validate for the 'bootstrap' directory
