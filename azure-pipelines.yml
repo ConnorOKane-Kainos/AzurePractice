@@ -1,38 +1,28 @@
-name: Terraform CI/CD Pipeline
+trigger:
+  branches:
+    include:
+      - ci/cd
 
-on: [push, pull_request]
+pool:
+  vmImage: 'ubuntu-latest'
 
-jobs:
-  terraform:
-    name: Terraform
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directory:
-          - bootstrap
-          - dns
-          - lb
-          - vpc
-          - vm
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+    addToPath: true
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+- script: |
+    terraform init
+    terraform validate
+  workingDirectory: 'bootstrap/terraform'
+  displayName: 'Terraform Init and Validate'
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+- script: terraform plan -out=tfplan -var="resource_group_name=$(resourceGroupName)" -var="location=$(location)"
+  workingDirectory: 'bootstrap/terraform'
+  displayName: 'Terraform Plan'
 
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Terraform Init
-        run: |
-          cd ${{ matrix.directory }}
-          terraform init
-
-      - name: Terraform Plan
-        run: |
-          cd ${{ matrix.directory }}
-          terraform plan
+- script: terraform apply -input=false tfplan
+  workingDirectory: 'bootstrap/terraform'
+  displayName: 'Terraform Apply'
+  condition: succeeded()
