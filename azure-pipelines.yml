@@ -4,7 +4,7 @@ trigger:
       - ci/cd
 
 pool:
-  name: 'Default' # This should match the name of your self-hosted agent pool
+  name: 'Azure Pipelines' # This should match the name of your self-hosted agent pool
 
 steps:
 # Initialize and validate for the 'bootstrap' directory
