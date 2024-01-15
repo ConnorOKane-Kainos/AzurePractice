@@ -11,10 +11,10 @@ steps:
 - script: |
     terraform init
     terraform validate
-  workingDirectory: 'bootstrap/terraform'
+   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
   displayName: 'Init and Validate for bootstrap/terraform'
 
 # Plan for the 'bootstrap/terraform' directory
 - script: terraform plan -out=bootstrap.tfplan
-  workingDirectory: 'bootstrap/terraform'
+   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
   displayName: 'Terraform Plan for bootstrap/terraform'
