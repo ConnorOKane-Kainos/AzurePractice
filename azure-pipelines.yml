@@ -1,32 +1,28 @@
-trigger:
-  branches:
-    include:
-      - ci/cd
+name: Terraform CI/CD
 
-pool:
-  name: 'Azure Pipelines' # This should match the name of your self-hosted agent pool
+on:
+  push:
+    branches:
+      - main
 
-steps:
-# Initialize and validate for the 'bootstrap' directory
-- script: |
-    echo "Initializing Terraform..."
-    terraform init
-    
-    echo "Validating Terraform configurations..."
-    terraform validate
-  workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
-  displayName: 'Init and Validate for bootstrap'
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
 
-# Plan for the 'bootstrap' directory
-- script: |
-    echo "Generating Terraform plan..."
-    terraform plan -out=bootstrap.tfplan
-  workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
-  displayName: 'Terraform Plan for bootstrap'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-# Apply the Terraform plan (uncomment this section if you want to apply changes automatically)
-# - script: |
-#     echo "Applying Terraform plan..."
-#     terraform apply bootstrap.tfplan
-#   workingDirectory: $(System.DefaultWorkingDirectory)/bootstrap
-#   displayName: 'Terraform Apply for bootstrap'
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
