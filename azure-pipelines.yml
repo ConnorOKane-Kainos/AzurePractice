@@ -1,8 +1,9 @@
 stages:
-  - build
-
-terraform-validate:
-  stage: build
-  script:
-    - terraform init -backend=false
-    - terraform validate
+  - stage: build
+    jobs:
+      - job: terraform_validate
+        steps:
+          - script: terraform init -backend=false
+            displayName: 'Initialize Terraform'
+          - script: terraform validate
+            displayName: 'Validate Terraform Configuration'
