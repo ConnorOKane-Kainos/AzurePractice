@@ -1,21 +1,22 @@
 stages:
   - stage: build
     jobs:
-      - job: terraform_validate
+      - job: terraform_init
         steps:
           - checkout: self  # Checks out the repository
           - script: |
               cd bootstrap
-              terraform init -backend=false
-            displayName: 'Initialize Terraform'
+              terraform init
+            displayName: 'Initialize Terraform and Update Lock File'
+
+      - job: terraform_validate_and_plan
+        dependsOn: terraform_init
+        steps:
+          - checkout: self
           - script: |
               cd bootstrap
               terraform validate
             displayName: 'Validate Terraform Configuration'
-
-      - job: terraform_plan
-        steps:
-          - checkout: self
           - script: |
               cd bootstrap
               terraform plan
