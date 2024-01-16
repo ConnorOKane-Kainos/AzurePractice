@@ -7,3 +7,8 @@ stages:
             displayName: 'Initialize Terraform'
           - script: terraform validate
             displayName: 'Validate Terraform Configuration'
+
+      - job: terraform_plan
+        steps:
+          - script: terraform plan
+            displayName: 'Generate Terraform Execution Plan'
