@@ -3,12 +3,20 @@ stages:
     jobs:
       - job: terraform_validate
         steps:
-          - script: terraform init -backend=false
+          - checkout: self  # Checks out the repository
+          - script: |
+              cd bootstrap
+              terraform init -backend=false
             displayName: 'Initialize Terraform'
-          - script: terraform validate
+          - script: |
+              cd bootstrap
+              terraform validate
             displayName: 'Validate Terraform Configuration'
 
       - job: terraform_plan
         steps:
-          - script: terraform plan
+          - checkout: self
+          - script: |
+              cd bootstrap
+              terraform plan
             displayName: 'Generate Terraform Execution Plan'
