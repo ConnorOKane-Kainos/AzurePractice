@@ -15,11 +15,11 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Azure CLI'
     inputs:
-      azureSubscription: 'test'  # Replace with the name of your Azure Resource Manager service connection
+      azureSubscription: 'test'  # This is the name of your Azure Resource Manager service connection
       scriptType: 'bash'
       scriptLocation: 'inlineScript'
       inlineScript: |
-        # You can run Azure CLI commands if necessary, using the authenticated session
+        # The pipeline will authenticate to Azure using the service connection named 'test'.
         echo "Logged in to Azure CLI."
 
   - script: |
