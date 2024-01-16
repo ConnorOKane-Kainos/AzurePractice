@@ -1,0 +1,38 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: 'Terraform'
+  displayName: 'Terraform CI/CD'
+
+  steps:
+  - checkout: self
+    displayName: 'Checkout code'
+
+  - task: AzureCLI@2
+    displayName: 'Azure CLI'
+    inputs:
+      azureSubscription: 'test'  # This is the name of your Azure Resource Manager service connection
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        # The pipeline will authenticate to Azure using the service connection named 'test'.
+        echo "Logged in to Azure CLI."
+
+  - script: |
+      terraform init
+    displayName: 'Terraform Init'
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
+
+  - script: |
+      terraform validate
+    displayName: 'Terraform Validate'
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
+
+  - script: |
+      terraform plan -out=tfplan
+    displayName: 'Terraform Plan'
+    workingDirectory: $(Build.SourcesDirectory)/bootstrap
