@@ -1,0 +1,29 @@
+trigger:
+  branches:
+    include:
+    - '*'
+  paths:
+    include:
+    - 'samples/integration-testing/src/*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'Run terraform init'
+  inputs:
+    command: init
+    workingDirectory: $(terraformWorkingDirectory)
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'Run terraform validate'
+  inputs:
+    command: validate
+    workingDirectory: $(terraformWorkingDirectory)
+
+- task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  displayName: 'Run terraform plan'
+  inputs:
+    command: plan
+    workingDirectory: $(terraformWorkingDirectory)
+    environmentServiceName: $(serviceConnection)
