@@ -15,11 +15,9 @@ steps:
 - script: |
     terraform init
     terraform validate
+  workingDirectory: bootstrap
   displayName: 'Terraform Init and Validate'
 
 - script: terraform plan -out=tfplan -var="resource_group_name=$(resourceGroupName)" -var="location=$(location)"
+  workingDirectory: bootstrap
   displayName: 'Terraform Plan'
-
-- script: terraform apply -input=false tfplan
-  displayName: 'Terraform Apply'
-  condition: succeeded()
