@@ -59,3 +59,32 @@ resource "azurerm_network_security_rule" "rdp_rule_vm2" {
   resource_group_name         = data.azurerm_resource_group.rsi_rg.name
 }
 
+resource "azurerm_network_security_rule" "allow_ssh_lb" {
+  name                        = "allow-SSH-LB"
+  priority                    = 1020
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "2200"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = data.azurerm_network_security_group.sg_1.name
+  resource_group_name         = data.azurerm_resource_group.rsi_rg.name
+}
+
+resource "azurerm_network_security_rule" "allow_ssh_lb_vm2" {
+  name                        = "allow-SSH-LB"
+  priority                    = 1020
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "2200"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  network_security_group_name = data.azurerm_network_security_group.sg_2.name
+  resource_group_name         = data.azurerm_resource_group.rsi_rg.name
+}
+
+
