@@ -4,6 +4,7 @@ resource "azurerm_lb" "lb" {
   name                = var.rsi_lb
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
+  sku = "Standard"
 
   frontend_ip_configuration {
     name                 = "public-ip-configuration"
@@ -17,48 +18,40 @@ resource "azurerm_public_ip" "lb_publicip" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   allocation_method   = "Static"
-  sku                 = "Basic"
+  sku                 = "Standard"
 }
 
-// Creating a back end address pool - This is where the two VM's in VNET1 will be connected \\
+// Creating a back end address pool - This is where the two VM's in VNET1 will be \\
 
 resource "azurerm_lb_backend_address_pool" "lb_address_pool" {
   loadbalancer_id = azurerm_lb.lb.id
   name            = "${var.rsi_lb}-address-pool"
 }
 
-// This health probe below will help to ensure the traffic being load balanced is healthy port 80 \\
 
-resource "azurerm_lb_probe" "lb_probe" {
-  loadbalancer_id = azurerm_lb.lb.id
-  name            = "${var.rsi_lb}-probe"
-  protocol        = "Http"
-  request_path    = "/"
-  port            = 80
-}
-
-// Here we will now define our load balancing rules \\
-
-resource "azurerm_lb_rule" "lb_rule" {
-  loadbalancer_id                = azurerm_lb.lb.id
-  name                           = "${var.rsi_lb}-http-rule" // Updated name
-  protocol                       = "Tcp"
-  frontend_port                  = 80
-  backend_port                   = 80
-  frontend_ip_configuration_name = "public-ip-configuration"
-  probe_id                       = azurerm_lb_probe.lb_probe.id
+# Health Probe for RDP
+resource "azurerm_lb_probe" "health_probe" {
+  loadbalancer_id     = azurerm_lb.lb.id
+  name                = "RDP-probe"
+  protocol            = "Tcp"
+  port                = 3389
+  interval_in_seconds = 5
+  number_of_probes    = 2
 }
 
 
-// The rules below are allowing SSH traffic on port 22 \\
-resource "azurerm_lb_rule" "ssh_rule" {
+// Load Balancer Rule for RDP
+// go into load balancing rules > update backend pools 
+resource "azurerm_lb_rule" "rdp_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
-  name                           = "${var.rsi_lb}-ssh-rule" // Updated name
+  name                           = "RDP"
   protocol                       = "Tcp"
-  frontend_port                  = 22
-  backend_port                   = 22
+  frontend_port                  = 3389 //changed from 55002 to test if this port 3389 will work. 
+  backend_port                   = 3389
   frontend_ip_configuration_name = "public-ip-configuration"
-  probe_id                       = azurerm_lb_probe.lb_probe.id
+  enable_floating_ip             = false
+  idle_timeout_in_minutes        = 5
+  probe_id                       = azurerm_lb_probe.health_probe.id
 }
 
 

@@ -18,15 +18,6 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
   network_security_group_id = data.azurerm_network_security_group.sg_1.id
 }
 
-# // Create a Public IP resource
-# resource "azurerm_public_ip" "publicip1" {
-#   name                = "myPublicIP1"
-#   location            = var.location
-#   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-#   allocation_method   = "Dynamic" # Or "Static"
-#   sku                 = "Basic"
-# }
-
 // VM extension to automate installation of Win32 SSH solution \\
 
 resource "azurerm_virtual_machine_extension" "ssh_extension" {
@@ -79,14 +70,6 @@ resource "azurerm_network_interface" "nic2" {
   }
 }
 
-# # Create a Public IP resource
-# resource "azurerm_public_ip" "publicip2" {
-#   name                = "myPublicIP2"
-#   location            = var.location
-#   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-#   allocation_method   = "Dynamic" # Or "Static"
-#   sku                 = "Basic"
-# }
 
 // VM2 extension to automate installation of Win32 SSH solution \\
 
