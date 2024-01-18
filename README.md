@@ -1,0 +1,3 @@
+# Azure 
+
+![Red Squad Inc Network Diagram](https://outlook.office.com/mail/inbox/id/AAQkADhlMGZlYjgwLWI1YzEtNDFiNS1hZmUxLTkyYzYxYWYwYzJkYgAQANBw9%2FvcV7BBtn2vbYf80VI%3D/sxs/AAMkADhlMGZlYjgwLWI1YzEtNDFiNS1hZmUxLTkyYzYxYWYwYzJkYgBGAAAAAAAm7rBxIqJ0RJcWL58RE6yhBwBpks7HU%2FMkT6cjeQ%2F1NaQjAAAAAAEMAABpks7HU%2FMkT6cjeQ%2F1NaQjAACF0%2BaSAAABEgAQABFPVec0b%2BlMuDMkAFRYRo0%3D)
