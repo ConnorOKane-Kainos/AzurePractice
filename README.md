@@ -8,9 +8,6 @@ This repository contains the Terraform configuration files used to deploy and ma
 
 ![Red Squad Inc Network Diagram](network-diagram.png)
 
-
-*Please replace the above URL with the actual path to the image in your repository.*
-
 ## Components
 
 The following is a list of the primary components deployed within our Azure environment:
