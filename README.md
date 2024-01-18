@@ -6,7 +6,7 @@ This repository contains the Terraform configuration files used to deploy and ma
 
 ## Infrastructure Diagram
 
-![Red Squad Inc Network Diagram](Documents/images/network-diagram.png)
+![Red Squad Inc Network Diagram](/Users/connorokane/Documents/AzurePractice-1network-diagram.png)
 
 *Please replace the above URL with the actual path to the image in your repository.*
 
