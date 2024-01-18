@@ -3,7 +3,7 @@ resource "azurerm_virtual_network" "vnet1" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   address_space       = ["10.0.0.0/16"]
-  depends_on          = [data.azurerm_resource_group.rsi_rg]
+  # depends_on          = [data.azurerm_resource_group.rsi_rg]
   #   dns_servers         = ["10.0.0.4", "10.0.0.5"]
 
   subnet {
@@ -13,19 +13,12 @@ resource "azurerm_virtual_network" "vnet1" {
   }
 }
 
-resource "azurerm_network_security_group" "sg_1" {
-  name                = "sg_1"
-  location            = var.location
-  resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  depends_on          = [data.azurerm_resource_group.rsi_rg]
-}
-
 resource "azurerm_virtual_network" "vnet2" {
   name                = "vnet-2"
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   address_space       = ["10.1.0.0/16"]
-  depends_on          = [data.azurerm_resource_group.rsi_rg]
+  # depends_on          = [data.azurerm_resource_group.rsi_rg]
   #   dns_servers         = ["10.0.0.6", "10.0.0.7"]
 
   subnet {
@@ -34,13 +27,6 @@ resource "azurerm_virtual_network" "vnet2" {
     security_group = azurerm_network_security_group.sg_2.id
   }
 
-}
-
-resource "azurerm_network_security_group" "sg_2" {
-  name                = "sg_2"
-  location            = var.location
-  resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  depends_on          = [data.azurerm_resource_group.rsi_rg]
 }
 
 # Peering from VNet1 to VNet2

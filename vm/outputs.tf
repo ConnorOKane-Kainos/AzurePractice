@@ -1,26 +1,7 @@
-// Output for the Public IP Address of VM1
-output "vm_public_ip" {
-  value       = azurerm_public_ip.publicip1.ip_address
-  description = "The Public IP Address of the VM1"
+// This output will give you the private IP you need to use in order to SSH into the ubuntu VM from the windows server \\
+// use the command 'ssh adminuser@<enter private ip output here>' and run it once you have RDP'd into the windows server \\
+
+output "private_ip_linux_vm" {
+  description = "The private IP address of the Linux VM"
+  value       = azurerm_network_interface.nic3.private_ip_address
 }
-
-// Output for the Public IP Address of VM1
-output "vm2_public_ip" {
-  value       = azurerm_public_ip.publicip2.ip_address
-  description = "The Public IP Address of the VM2"
-}
-
-# output "linux_vm" {
-#   value       = azurerm_linux_virtual_machine.linux_vm
-#   description = "The IP of linux VM"
-# }
-
-# output "network_interface_id1" {
-#   value       = azurerm_network_interface.nic1
-#   description = "The network ID Address of the NIF1"
-# }
-
-# output "network_interface_id2" {
-#   value       = azurerm_network_interface.nic2
-#   description = "The network ID Address of the NIF2"
-# }
