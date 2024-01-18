@@ -12,7 +12,7 @@ resource "azurerm_network_interface" "nic1" {
   }
 }
 
-// Associate NSG with the Network Interface
+// Associate NSG with the Network Interface \\
 resource "azurerm_network_interface_security_group_association" "nsg_association_nic1" {
   network_interface_id      = azurerm_network_interface.nic1.id
   network_security_group_id = data.azurerm_network_security_group.sg_1.id

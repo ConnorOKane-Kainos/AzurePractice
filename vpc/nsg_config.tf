@@ -1,17 +1,21 @@
+// Creates the 1st NSG for VNET1 \\
+
 resource "azurerm_network_security_group" "sg_1" {
   name                = "sg_1"
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  # depends_on          = [data.azurerm_resource_groups.vnet1]
+
 }
 
+// Creates the 2nd NSG for VNET2 //
 resource "azurerm_network_security_group" "sg_2" {
   name                = "sg_2"
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  # depends_on          = [data.azurerm_resource_group.vnet2]
+
 }
 
+// Rule for NSG1 to allow port 3389 inbound \\
 resource "azurerm_network_security_rule" "allow_rdp" {
   name                        = "allow-rdp"
   priority                    = 100
@@ -27,6 +31,7 @@ resource "azurerm_network_security_rule" "allow_rdp" {
   depends_on = [ azurerm_network_security_group.sg_1 ]
 }
 
+// Rule for NSG2 to allow port 22 inbound, this allows us to be able to ssh into the ubuntu vm from the windows server \\
 resource "azurerm_network_security_rule" "allow_rdp_vm2" {
   name                        = "allow-ssh"
   priority                    = 100

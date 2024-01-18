@@ -29,7 +29,7 @@ resource "azurerm_lb_backend_address_pool" "lb_address_pool" {
 }
 
 
-# Health Probe for RDP
+// Health Probe for RDP \\
 resource "azurerm_lb_probe" "health_probe" {
   loadbalancer_id     = azurerm_lb.lb.id
   name                = "RDP-probe"
@@ -40,13 +40,13 @@ resource "azurerm_lb_probe" "health_probe" {
 }
 
 
-// Load Balancer Rule for RDP
-// go into load balancing rules > update backend pools 
+// Load Balancer Rule for RDP \\
+// go into load balancing rules > update backend pools \\
 resource "azurerm_lb_rule" "rdp_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = "RDP"
   protocol                       = "Tcp"
-  frontend_port                  = 3389 //changed from 55002 to test if this port 3389 will work. 
+  frontend_port                  = 3389
   backend_port                   = 3389
   frontend_ip_configuration_name = "public-ip-configuration"
   enable_floating_ip             = false
