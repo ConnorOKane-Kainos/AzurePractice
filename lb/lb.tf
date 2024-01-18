@@ -4,7 +4,7 @@ resource "azurerm_lb" "lb" {
   name                = var.rsi_lb
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  sku                 = "Standard"
+  sku                 = "Standard" // You need to use standard sku
 
   frontend_ip_configuration {
     name                 = "public-ip-configuration"
@@ -18,7 +18,7 @@ resource "azurerm_public_ip" "lb_publicip" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   allocation_method   = "Static"
-  sku                 = "Standard"
+  sku                 = "Standard" // You need to use standard sku
 }
 
 // Creating a back end address pool - This is where the two VM's in VNET1 will be \\

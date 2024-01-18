@@ -35,8 +35,9 @@ resource "azurerm_windows_virtual_machine" "vm1" {
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   location            = var.location
   size                = "Standard_B1s"
-  admin_username      = "adminuser"
-  admin_password      = "Password1234!"
+  admin_username      = var.admin_username
+  admin_password      = var.windows_vm_admin_password
+
   availability_set_id = azurerm_availability_set.availability_set.id
   network_interface_ids = [
     azurerm_network_interface.nic1.id,
@@ -88,8 +89,9 @@ resource "azurerm_windows_virtual_machine" "vm2" {
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   location            = var.location
   size                = "Standard_B1s"
-  admin_username      = "adminuser"
-  admin_password      = "Password1234!"
+  admin_username      = var.admin_username
+  admin_password      = var.windows_vm_admin_password
+
   availability_set_id = azurerm_availability_set.availability_set.id
   network_interface_ids = [
     azurerm_network_interface.nic2.id,
@@ -132,21 +134,17 @@ resource "azurerm_network_interface" "nic3" {
 // Ubuntu VM \\
 
 resource "azurerm_linux_virtual_machine" "linux_vm" {
-  name                            = var.linux_vm
-  resource_group_name             = data.azurerm_resource_group.rsi_rg.name
-  location                        = var.location
-  size                            = "Standard_B1ls" // This is one of the most cost-effective VM sizes
-  admin_username                  = "adminuser"
-  admin_password                  = "Password123!"
+  name                = var.linux_vm
+  resource_group_name = data.azurerm_resource_group.rsi_rg.name
+  location            = var.location
+  size                = "Standard_B1ls" // This is one of the most cost-effective VM sizes
+  admin_username      = var.admin_username
+  admin_password      = var.linux_vm_admin_password
+
   disable_password_authentication = false
   network_interface_ids = [
     azurerm_network_interface.nic3.id,
   ]
-
-  # admin_ssh_key {
-  #   username   = "adminuser"
-  #   public_key = file("~/.ssh/id_rsa.pub")
-  # }
 
   os_disk {
     caching              = "ReadWrite"

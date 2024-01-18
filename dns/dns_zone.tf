@@ -7,7 +7,7 @@ resource "azurerm_dns_zone" "dns_zone" {
 
 // Create a DNS A Record to point to the Load Balancer's Public IP \\
 resource "azurerm_dns_a_record" "dns_a_record" {
-  name                = "www" // subdomain, for example it will www.example.com
+  name                = "www"
   zone_name           = azurerm_dns_zone.dns_zone.name
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   ttl                 = 300

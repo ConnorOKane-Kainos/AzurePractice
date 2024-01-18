@@ -25,3 +25,17 @@ variable "availability_set" {
   description = "Availability set for the two VM's in VNET1"
   default     = "vm-availability-set"
 }
+variable "admin_username" {
+  description = "Admin username for the VMs"
+  type        = string
+}
+
+variable "windows_vm_admin_password" {
+  description = "Admin password for the Windows VMs"
+  type        = string
+}
+
+variable "linux_vm_admin_password" {
+  description = "Admin password for the Linux VM"
+  type        = string
+}
