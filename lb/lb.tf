@@ -4,7 +4,7 @@ resource "azurerm_lb" "lb" {
   name                = var.rsi_lb
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
-  sku = "Standard"
+  sku                 = "Standard"
 
   frontend_ip_configuration {
     name                 = "public-ip-configuration"
