@@ -40,8 +40,18 @@ To deploy this infrastructure:
 
 1. Clone the repository.
 2. Navigate to the repository directory.
-3. Use Terraform to initialize, plan, and apply the configuration:
+3. You must be in the directory of the file that you are wanting to run.
+4. Use Terraform to initialize, plan, and apply the configuration:
    ```sh
    terraform init
    terraform plan
    terraform apply
+
+## NOTE
+ 
+ A note to make, when you are deploying the VM configuraton you must use the following command:
+ ```sh
+ terraform plan -var-file="../terraform.tfvars"
+ terraform apply -var-file="../terraform.tfvars"
+
+ 

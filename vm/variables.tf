@@ -33,6 +33,7 @@ variable "admin_username" {
 variable "windows_vm_admin_password" {
   description = "Admin password for the Windows VMs"
   type        = string
+
 }
 
 variable "linux_vm_admin_password" {

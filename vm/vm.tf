@@ -19,7 +19,6 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
 }
 
 // VM extension to automate installation of Win32 SSH solution \\
-
 resource "azurerm_virtual_machine_extension" "ssh_extension" {
   name                 = "WindowsOpenSSH"
   virtual_machine_id   = azurerm_windows_virtual_machine.vm1.id
@@ -28,13 +27,12 @@ resource "azurerm_virtual_machine_extension" "ssh_extension" {
   type_handler_version = "3.0"
 }
 
-
-// VM 1 to be created and attached to netowrk interface 1 \\
+// VM 1 to be created and attached to network interface 1 \\
 resource "azurerm_windows_virtual_machine" "vm1" {
   name                = "myVM1"
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   location            = var.location
-  size                = "Standard_B1s"
+  size                = "Standard_D2ds_v5"
   admin_username      = var.admin_username
   admin_password      = var.windows_vm_admin_password
 
@@ -56,8 +54,29 @@ resource "azurerm_windows_virtual_machine" "vm1" {
   }
 }
 
+// PowerShell script to install IIS \\
+locals {
+  install_iis_script = <<-EOF
+    Install-WindowsFeature -name Web-Server -IncludeManagementTools
+  EOF
+}
 
-// Creates a network interface for VM2 \\
+// VM1 extension to install IIS \\
+resource "azurerm_virtual_machine_extension" "install_iis" {
+  name                 = "InstallIIS"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm1.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.10"
+
+  settings = jsonencode({
+    "commandToExecute": "powershell.exe -Command ${local.install_iis_script}"
+  })
+}
+
+
+
+// Creates a network interface for VM2
 resource "azurerm_network_interface" "nic2" {
   name                = "myNIC2"
   location            = var.location
@@ -71,9 +90,7 @@ resource "azurerm_network_interface" "nic2" {
   }
 }
 
-
-// VM2 extension to automate installation of Win32 SSH solution \\
-
+// VM2 extension to automate installation of Win32 SSH solution
 resource "azurerm_virtual_machine_extension" "ssh_extension_vm2" {
   name                 = "WindowsOpenSSH"
   virtual_machine_id   = azurerm_windows_virtual_machine.vm2.id
@@ -82,13 +99,12 @@ resource "azurerm_virtual_machine_extension" "ssh_extension_vm2" {
   type_handler_version = "3.0"
 }
 
-
-// VM 2 to be created and attached to netowrk interface 2 \\
+// VM 2 to be created and attached to network interface 2
 resource "azurerm_windows_virtual_machine" "vm2" {
   name                = "myVM2"
   resource_group_name = data.azurerm_resource_group.rsi_rg.name
   location            = var.location
-  size                = "Standard_B1s"
+  size                = "Standard_D2ds_v5"
   admin_username      = var.admin_username
   admin_password      = var.windows_vm_admin_password
 
@@ -115,6 +131,27 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
   network_interface_id      = azurerm_network_interface.nic2.id
   network_security_group_id = data.azurerm_network_security_group.sg_2.id
 }
+
+// PowerShell script to install IIS for VM2
+locals {
+  install_iis_script_vm2 = <<-EOF
+    Install-WindowsFeature -name Web-Server -IncludeManagementTools
+  EOF
+}
+
+// VM extension to install IIS on VM2
+resource "azurerm_virtual_machine_extension" "install_iis_vm2" {
+  name                 = "InstallIIS_VM2"
+  virtual_machine_id   = azurerm_windows_virtual_machine.vm2.id
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.10"
+
+  settings = jsonencode({
+    "commandToExecute": "powershell.exe -Command ${local.install_iis_script_vm2}"
+  })
+}
+
 
 
 // Network Interface for Linux VM \\
