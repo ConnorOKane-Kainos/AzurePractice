@@ -40,8 +40,8 @@ resource "azurerm_lb_probe" "health_probe" {
 }
 
 
+
 // Load Balancer Rule for RDP \\
-// go into load balancing rules > update backend pools \\
 resource "azurerm_lb_rule" "rdp_rule" {
   loadbalancer_id                = azurerm_lb.lb.id
   name                           = "RDP"
@@ -52,6 +52,7 @@ resource "azurerm_lb_rule" "rdp_rule" {
   enable_floating_ip             = false
   idle_timeout_in_minutes        = 5
   probe_id                       = azurerm_lb_probe.health_probe.id
+  backend_address_pool_ids       = [azurerm_lb_backend_address_pool.lb_address_pool.id] // Associated with the backend pools \\
 }
 
 
