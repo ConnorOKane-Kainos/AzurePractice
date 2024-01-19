@@ -4,10 +4,6 @@
 
 This repository contains the Terraform configuration files used to deploy and manage the cloud infrastructure for Red Squad Inc. on Microsoft Azure. The infrastructure is designed to support a robust, secure, and scalable environment for our applications and services.
 
-## Infrastructure Diagram
-
-![Red Squad Inc Network Diagram](network-diagram.png)
-
 ## Components
 
 The following is a list of the primary components deployed within our Azure environment:
