@@ -1,8 +1,8 @@
-terraform {
-  backend "azurerm" {
-    resource_group_name   = "rsi_rg"
-    storage_account_name  = "stg8p7dskf"
-    container_name        = "tfstate"
-    key                   = "bootstrap.terraform.tfstate"
-  }
-}
+# terraform {
+#   backend "azurerm" {
+#     resource_group_name   = "rsi_rg"
+#     storage_account_name  = "enter_generated_name"
+#     container_name        = "tfstate"
+#     key                   = "bootstrap.terraform.tfstate"
+#   }
+# }
