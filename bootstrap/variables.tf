@@ -4,7 +4,7 @@ variable "location" {
 }
 
 variable "rg" {
-  type = string
-  default = "rsi_rg"
+  type        = string
+  default     = "rsi_rg"
   description = "name of resource group"
 }
