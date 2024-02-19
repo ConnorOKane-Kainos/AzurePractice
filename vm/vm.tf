@@ -70,7 +70,7 @@ resource "azurerm_virtual_machine_extension" "install_iis" {
   type_handler_version = "1.10"
 
   settings = jsonencode({
-    "commandToExecute": "powershell.exe -Command ${local.install_iis_script}"
+    "commandToExecute" : "powershell.exe -Command ${local.install_iis_script}"
   })
 }
 
@@ -148,7 +148,7 @@ resource "azurerm_virtual_machine_extension" "install_iis_vm2" {
   type_handler_version = "1.10"
 
   settings = jsonencode({
-    "commandToExecute": "powershell.exe -Command ${local.install_iis_script_vm2}"
+    "commandToExecute" : "powershell.exe -Command ${local.install_iis_script_vm2}"
   })
 }
 
