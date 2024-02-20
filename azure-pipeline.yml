@@ -78,10 +78,4 @@ stages:
               overrideAction: ${{ parameters.overrideAction }}
               environment: "sbox"
               component: "lab"
-              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-              tfVarsFile: NULL
-              initCommandOptions: >
-                -reconfigure
-              planCommandOptions: >
-                -compact-warnings
-                -lock-timeout=30s
+              terraformVersion: 1.7.3
