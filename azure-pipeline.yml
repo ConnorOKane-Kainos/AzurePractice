@@ -60,8 +60,12 @@ stages:
         timeoutInMinutes: ${{ variables.timeoutInMinutes }}
         steps:
           - script: |
+              echo "Installing tfswitch"
+              curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+            displayName: 'Install tfswitch'
+          - script: |
               echo "Setting Terraform version to 0.13.130"
-              tfswitch -b $HOME/.local/bin/terraform 0.13.130
+              $HOME/.tfswitch/bin/tfswitch 0.13.130
             displayName: 'Set Terraform Version'
           - template: steps/terraform-precheck.yaml@cnp-azuredevops-libraries
             parameters:
@@ -69,6 +73,7 @@ stages:
               keyvaultSecret: 'azure-devops-sp-token'
               serviceConnection: 'DCD-CFT-Sandbox'
               overrideAction: ${{ parameters.overrideAction }}
+
 
   - stage: deploy
     jobs:
