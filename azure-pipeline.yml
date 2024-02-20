@@ -68,23 +68,27 @@ stages:
 
   - stage: deploy
     jobs:
-      - job: PlanAndApply
-        steps:
-          - script: |
-              tfswitch 1.73
-            displayName: 'Switch to Terraform 1.73'
-          - template: steps/terraform.yaml@cnp-azuredevops-libraries
-            parameters:
-              location: ${{ parameters.location }}
-              serviceConnection: "DTS-SHAREDSERVICES-SBOX"
-              product: ${{ variables.product }}
-              overrideAction: ${{ parameters.overrideAction }}
-              environment: "sbox"
-              component: "lab"
-              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
-              tfVarsFile: NULL
-              initCommandOptions: >
-                -reconfigure
-              planCommandOptions: >
-                -compact-warnings
-                -lock-timeout=30s
+    - job: PlanAndApply
+      steps:
+        - script: |
+            curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+          displayName: 'Install tfswitch'
+        - script: |
+            tfswitch 1.73
+          displayName: 'Switch to Terraform 1.73'
+        - template: steps/terraform.yaml@cnp-azuredevops-libraries
+          parameters:
+            location: ${{ parameters.location }}
+            serviceConnection: "DTS-SHAREDSERVICES-SBOX"
+            product: ${{ variables.product }}
+            overrideAction: ${{ parameters.overrideAction }}
+            environment: "sbox"
+            component: "lab"
+            terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+            tfVarsFile: NULL
+            initCommandOptions: >
+              -reconfigure
+            planCommandOptions: >
+              -compact-warnings
+              -lock-timeout=30s
+
