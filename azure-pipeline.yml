@@ -70,9 +70,6 @@ stages:
     jobs:
       - job: PlanAndApply
         steps:
-          - task: UseTerraform@0
-            inputs:
-              terraformVersion: '1.7.3'
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
               location: ${{ parameters.location }}
@@ -81,3 +78,10 @@ stages:
               overrideAction: ${{ parameters.overrideAction }}
               environment: "sbox"
               component: "lab"
+              terraformInitSubscription: ${{ variables.terraformInitSubscription }}
+              tfVarsFile: NULL
+              initCommandOptions: >
+                -reconfigure
+              planCommandOptions: >
+                -compact-warnings
+                -lock-timeout=30s
