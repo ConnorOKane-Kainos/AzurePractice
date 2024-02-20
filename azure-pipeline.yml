@@ -70,6 +70,9 @@ stages:
     jobs:
       - job: PlanAndApply
         steps:
+          - script: |
+              tfswitch 1.73
+            displayName: 'Switch to Terraform 1.73'
           - template: steps/terraform.yaml@cnp-azuredevops-libraries
             parameters:
               location: ${{ parameters.location }}
